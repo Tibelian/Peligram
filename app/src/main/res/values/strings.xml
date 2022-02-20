@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Peligram</string>
+    <string name="post_list_title">List of posts</string>
 </resources>
