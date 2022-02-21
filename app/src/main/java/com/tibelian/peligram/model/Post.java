@@ -6,7 +6,7 @@ public class Post {
 
     private UUID id;
     private String title;
-    private int image;
+    private int image = -1;
     private int likes;
 
     public Post(UUID id) {

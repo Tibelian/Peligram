@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import com.tibelian.peligram.R;
 import com.tibelian.peligram.database.PostBaseHelper;
 import com.tibelian.peligram.database.PostCursorWrapper;
 import com.tibelian.peligram.database.PostDbSchema.PostTable;
@@ -26,6 +27,61 @@ public class PostLab {
     {
         this.context = context.getApplicationContext();
         this.database = new PostBaseHelper(this.context).getWritableDatabase();
+
+        // sample data
+        if (this.getPosts().size() == 0) {
+            insertDemoData();
+        }
+    }
+
+    private void insertDemoData()
+    {
+        Post p0 = new Post();
+        p0.setTitle("Karate kid");
+        p0.setImage(R.drawable.movie0);
+        p0.setLikes(5);
+        Post p1 = new Post();
+        p1.setTitle("Avengers");
+        p1.setImage(R.drawable.movie1);
+        p1.setLikes(8);
+        Post p2 = new Post();
+        p2.setTitle("Avatar");
+        p2.setImage(R.drawable.movie2);
+        p2.setLikes(3);
+        Post p3 = new Post();
+        p3.setTitle("Spiderman");
+        p3.setImage(R.drawable.movie3);
+        p3.setLikes(12);
+        Post p4 = new Post();
+        p4.setTitle("Dunkerque");
+        p4.setImage(R.drawable.movie4);
+        p4.setLikes(1);
+        Post p5 = new Post();
+        p5.setTitle("Divergent");
+        p5.setImage(R.drawable.movie5);
+        p5.setLikes(4);
+        Post p6 = new Post();
+        p6.setTitle("Jackie Chan");
+        p6.setImage(R.drawable.movie6);
+        p6.setLikes(2);
+        Post p7 = new Post();
+        p7.setTitle("Ready Player one");
+        p7.setImage(R.drawable.movie7);
+        p7.setLikes(8);
+        Post p8 = new Post();
+        p8.setTitle("Toy Story");
+        p8.setImage(R.drawable.movie8);
+        p8.setLikes(4);
+        // save into database
+        addPost(p0);
+        addPost(p1);
+        addPost(p2);
+        addPost(p3);
+        addPost(p4);
+        addPost(p5);
+        addPost(p6);
+        addPost(p7);
+        addPost(p8);
     }
 
     /*

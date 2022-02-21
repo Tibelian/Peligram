@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,6 +19,7 @@ import android.widget.TextView;
 import com.tibelian.peligram.model.Post;
 import com.tibelian.peligram.model.PostLab;
 
+import java.io.IOException;
 import java.util.List;
 
 public class PostListFragment extends Fragment {
@@ -78,7 +81,7 @@ public class PostListFragment extends Fragment {
             private TextView mTitle;
             private ImageView mImage;
             private TextView mLikes;
-            private Button mAddLike;
+            private ImageView mAddLike;
 
             public PostViewHolder(View view) {
                 super(view);
@@ -92,8 +95,9 @@ public class PostListFragment extends Fragment {
             {
                 // show data
                 mTitle.setText(post.getTitle());
-                mImage.setImageResource(post.getImage());
-                mLikes.setText((post.getLikes()));
+                if (post.getImage() != -1)
+                    mImage.setImageResource(post.getImage());
+                mLikes.setText("" + post.getLikes());
 
                 // on click like button
                 mAddLike.setOnClickListener(v -> {
@@ -102,12 +106,33 @@ public class PostListFragment extends Fragment {
                     post.setLikes(post.getLikes() + 1);
 
                     // update the text view
-                    mLikes.setText(post.getLikes());
+                    mLikes.setText("" + post.getLikes());
 
                     // and finally save changes into database
                     PostLab.get(getActivity()).updatePost(post);
 
+                    // scale animation to the like button
+                    scaleThis(mAddLike);
+
                 });
+            }
+
+            private void scaleThis(View view)
+            {
+                // animation type
+                ScaleAnimation increase  = new ScaleAnimation(1, 1.2f, 1, 1.2f,
+                        Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                ScaleAnimation decrease = new ScaleAnimation(1.2f, 1, 1.2f, 1,
+                        Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                // animation duration
+                increase.setDuration(500);
+                decrease.setDuration(500);
+                // animation persist changes
+                increase.setFillAfter(true);
+                decrease.setFillAfter(true);
+                // apply animation
+                view.startAnimation(increase);
+                view.startAnimation(decrease);
             }
 
         }

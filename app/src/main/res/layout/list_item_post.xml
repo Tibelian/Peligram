@@ -13,20 +13,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="10dp"
-        android:layout_margin="2dp"
+        android:layout_margin="3dp"
         android:background="#eee">
 
         <!-- thumbnail -->
         <ImageView
+            android:minHeight="150dp"
+            android:adjustViewBounds="true"
             android:id="@+id/post_image"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:minHeight="200dp"/>
+            android:layout_height="wrap_content"/>
 
         <!-- details -->
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:padding="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -38,7 +38,6 @@
                 android:hint="TITLE"
                 android:textColor="#000"
                 android:textSize="16dp"
-                android:layout_marginLeft="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -48,21 +47,21 @@
                 android:id="@+id/post_likes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="LIKES"
-                android:layout_marginRight="10dp"
+                android:layout_marginRight="5dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/post_add_like"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <!-- add like button -->
-            <Button
+            <ImageView
+                android:padding="10dp"
                 android:id="@+id/post_add_like"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="ADD LIKE"
+                android:src="@drawable/thumbs_up"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent" />
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
