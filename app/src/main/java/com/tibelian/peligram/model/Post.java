@@ -1,10 +1,24 @@
 package com.tibelian.peligram.model;
 
+import java.util.UUID;
+
 public class Post {
 
+    private UUID id;
     private String title;
     private String image;
     private int likes;
+
+    public Post(UUID id) {
+        this.id = id;
+    }
+    public Post() {
+        this(UUID.randomUUID());
+    }
+
+    public UUID getId() {
+        return id;
+    }
 
     public String getTitle() {
         return title;
