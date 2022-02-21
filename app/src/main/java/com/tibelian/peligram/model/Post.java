@@ -6,7 +6,7 @@ public class Post {
 
     private UUID id;
     private String title;
-    private String image;
+    private int image;
     private int likes;
 
     public Post(UUID id) {
@@ -28,11 +28,11 @@ public class Post {
         this.title = title;
     }
 
-    public String getImage() {
+    public int getImage() {
         return image;
     }
 
-    public void setImage(String image) {
+    public void setImage(int image) {
         this.image = image;
     }
 

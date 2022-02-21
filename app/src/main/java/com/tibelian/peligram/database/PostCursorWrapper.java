@@ -18,7 +18,7 @@ public class PostCursorWrapper extends CursorWrapper {
 
         String uuidString = getString(getColumnIndex(PostTable.Cols.UUID));
         String title = getString(getColumnIndex(PostTable.Cols.TITLE));
-        String image = getString(getColumnIndex(PostTable.Cols.IMAGE));
+        int image = getInt(getColumnIndex(PostTable.Cols.IMAGE));
         int likes = getInt(getColumnIndex(PostTable.Cols.LIKES));
 
         Post p = new Post(UUID.fromString(uuidString));
