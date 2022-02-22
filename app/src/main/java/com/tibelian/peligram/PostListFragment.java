@@ -3,11 +3,16 @@ package com.tibelian.peligram;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -27,12 +32,31 @@ public class PostListFragment extends Fragment {
     private RecyclerView mPostRecyclerView;
     private PostListAdapter mPostListAdapter;
 
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // add custom menu options
+        setHasOptionsMenu(true);
     }
 
-    @Override
+    // declare the menu's layout
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.options_post_list, menu);
+    }
+
+    // event on click menu option
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.menu_best:
+                // @todo open best posts activity
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+    }
+
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_post_list, container, false);
@@ -49,7 +73,6 @@ public class PostListFragment extends Fragment {
         // now this view will be rendered
         return view;
     }
-
 
     // my custom list adapter
     private class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.PostViewHolder> {
