@@ -3,6 +3,4 @@
     <string name="post_list_title">List of posts</string>
     <string name="app_logo">logo</string>
     <string name="best_posts">Best posts</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
