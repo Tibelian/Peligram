@@ -65,13 +65,17 @@ public class PostLab {
         p6.setImage(R.drawable.movie6);
         p6.setLikes(2);
         Post p7 = new Post();
-        p7.setTitle("Ready Player one");
+        p7.setTitle("Ready Player One");
         p7.setImage(R.drawable.movie7);
         p7.setLikes(8);
         Post p8 = new Post();
         p8.setTitle("Toy Story");
         p8.setImage(R.drawable.movie8);
         p8.setLikes(4);
+        Post p9 = new Post();
+        p9.setTitle("Jurassic Park");
+        p9.setImage(R.drawable.movie9);
+        p9.setLikes(6);
         // save into database
         addPost(p0);
         addPost(p1);
@@ -82,6 +86,7 @@ public class PostLab {
         addPost(p6);
         addPost(p7);
         addPost(p8);
+        addPost(p9);
     }
 
     /*
@@ -98,6 +103,26 @@ public class PostLab {
         List<Post> posts = new ArrayList<>();
         // find all posts
         PostCursorWrapper cursor = this.queryPosts(null, null);
+        try {
+            cursor.moveToFirst();
+            while(!cursor.isAfterLast())
+            {
+                posts.add(cursor.getPost());
+                cursor.moveToNext();
+            }
+        } finally {
+            // close cursor
+            cursor.close();
+        }
+        return posts;
+    }
+
+    public List<Post> getPopularPosts(int limit) {
+        // prepare list
+        List<Post> posts = new ArrayList<>();
+        // find all posts and order by likes
+        String orderBy = PostTable.Cols.LIKES + " DESC";
+        PostCursorWrapper cursor = this.queryPosts(null, null, null, null, orderBy, "" + limit);
         try {
             cursor.moveToFirst();
             while(!cursor.isAfterLast())
@@ -179,7 +204,7 @@ public class PostLab {
         database.update(PostTable.NAME, values, whereClause, whereArgs);
     }
 
-    private PostCursorWrapper queryPosts(String whereClause, String[] whereArgs)
+    private PostCursorWrapper queryPosts(String whereClause, String[] whereArgs, String groupBy, String having, String orderBy, String limit)
     {
         return new PostCursorWrapper(
                 database.query(
@@ -187,11 +212,17 @@ public class PostLab {
                         null, // all columns, select *
                         whereClause,
                         whereArgs,
-                        null, // group results
-                        null, // having
-                        null // order results
+                        groupBy,
+                        having,
+                        orderBy,
+                        limit
                 )
         );
+    }
+
+    private PostCursorWrapper queryPosts(String whereClause, String[] whereArgs)
+    {
+        return queryPosts(whereClause, whereArgs, null, null, null, null);
     }
 
 }

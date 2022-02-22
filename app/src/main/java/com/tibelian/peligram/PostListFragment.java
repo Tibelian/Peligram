@@ -1,5 +1,6 @@
 package com.tibelian.peligram;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -48,7 +49,7 @@ public class PostListFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.menu_best:
-                // @todo open best posts activity
+                startActivity(new Intent(getActivity(), PopularListActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -63,7 +64,7 @@ public class PostListFragment extends Fragment {
 
         // loads the adapter with the posts from the laboratory
         List<Post> posts = PostLab.get(getActivity()).getPosts();
-        mPostListAdapter = new PostListAdapter(posts);
+        mPostListAdapter = new PostListAdapter(posts, getActivity());
 
         // create the list using the prev adapter
         mPostRecyclerView = view.findViewById(R.id.post_recycler);
@@ -74,91 +75,4 @@ public class PostListFragment extends Fragment {
         return view;
     }
 
-    // my custom list adapter
-    private class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.PostViewHolder> {
-
-        private List<Post> mPosts;
-
-        public PostListAdapter(List<Post> posts) {
-            mPosts = posts;
-        }
-        public void setPosts(List<Post> posts) {
-            mPosts = posts;
-        }
-        public int getItemCount() {
-            return mPosts.size();
-        }
-
-        public PostViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.list_item_post, parent, false);
-            return new PostViewHolder(view);
-        }
-
-        public void onBindViewHolder(PostViewHolder viewHolder, final int position) {
-            viewHolder.bind(mPosts.get(position));
-        }
-
-        public class PostViewHolder extends RecyclerView.ViewHolder {
-
-            private TextView mTitle;
-            private ImageView mImage;
-            private TextView mLikes;
-            private ImageView mAddLike;
-
-            public PostViewHolder(View view) {
-                super(view);
-                mTitle = view.findViewById(R.id.post_title);
-                mImage = view.findViewById(R.id.post_image);
-                mLikes = view.findViewById(R.id.post_likes);
-                mAddLike = view.findViewById(R.id.post_add_like);
-            }
-
-            public void bind(Post post)
-            {
-                // show data
-                mTitle.setText(post.getTitle());
-                if (post.getImage() != -1)
-                    mImage.setImageResource(post.getImage());
-                mLikes.setText("" + post.getLikes());
-
-                // on click like button
-                mAddLike.setOnClickListener(v -> {
-
-                    // increase number of likes
-                    post.setLikes(post.getLikes() + 1);
-
-                    // update the text view
-                    mLikes.setText("" + post.getLikes());
-
-                    // and finally save changes into database
-                    PostLab.get(getActivity()).updatePost(post);
-
-                    // scale animation to the like button
-                    scaleThis(mAddLike);
-
-                });
-            }
-
-            private void scaleThis(View view)
-            {
-                // animation type
-                ScaleAnimation increase  = new ScaleAnimation(1, 1.2f, 1, 1.2f,
-                        Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-                ScaleAnimation decrease = new ScaleAnimation(1.2f, 1, 1.2f, 1,
-                        Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-                // animation duration
-                increase.setDuration(500);
-                decrease.setDuration(500);
-                // animation persist changes
-                increase.setFillAfter(true);
-                decrease.setFillAfter(true);
-                // apply animation
-                view.startAnimation(increase);
-                view.startAnimation(decrease);
-            }
-
-        }
-
-    }
 }
